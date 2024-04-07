@@ -2,9 +2,12 @@ server:
   port: 10001
   tomcat:
     uri-encoding: UTF-8
+
 spring:
   application:
     name: world
+  profiles:
+    active: @profiles.active@
   # jackson全局时间格式化
   jackson:
     time-zone: GMT+8
@@ -17,42 +20,7 @@ spring:
       cache-null-values: true
       # 使用前缀，分区
       use-key-prefix: true
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/gf_survey?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
-    username: root
-    password: pass
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      # 连接池中保持的最小空闲连接数。这些连接将被保持打开，以避免频繁地创建和关闭连接。
-      minimum-idle: 5
-      # 连接池中允许的最大连接数。这决定了同时可以处理的最大并发连接数。
-      maximum-pool-size: 15
-      # 指定连接是否自动提交事务。如果设置为 true，每个 SQL 语句将自动提交事务。
-      auto-commit: true
-      # 连接在连接池中保持空闲的最长时间（以毫秒为单位）。如果一个连接在指定的时间内没有被使用，它将被关闭和删除。
-      idle-timeout: 30000
-      # 连接池的名称。这个名称用于标识连接池，可以在日志和监控中使用。
-      pool-name: DatebookHikariCP
-      # 连接在连接池中允许存在的最长时间（以毫秒为单位）。如果一个连接在指定的时间内没有被使用，它将被关闭和删除。
-      max-lifetime: 1800000
-      # 用于测试连接是否有效的 SQL 查询语句。连接池会定期执行这个查询来验证连接是否仍然有效。
-      connection-test-query: SELECT 1 FROM DUAL
-  data:
-    redis:
-#      database:
-#      host:
-#      port:
-#      password:
-#      ssl:
-#      timeout:
-#      connectTimeout:
-#      clientName:
-#      cluster:
-#        nodes:
-#      sentinel:
-#        master:
-#        nodes:
+
 # MyBatisFlex配置
 mybatis-flex:
   # 配置扫描路径
@@ -68,4 +36,4 @@ mybatis-flex:
     # 逻辑未删除值
     normal-value-of-logic-delete: 0
     # 逻辑已删除值
-    deleted-value-of-logic-delete: 2
+    deleted-value-of-logic-delete: 1

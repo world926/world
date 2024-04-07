@@ -1,0 +1,91 @@
+#mode:
+#  type: Standalone
+#  repository:
+#    type: JDBC
+dataSources:
+  master0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: pass
+    maxPoolSize: 20
+    minIdle: 10
+    connectionTimeout: 30000
+    idleTimeout: 600000
+    maxLifetime: 1800000
+  master1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey1?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: pass
+    # 最大连接池数量
+    maxPoolSize: 20
+    # 最小空闲线程数量
+    minIdle: 10
+    # 配置获取连接等待超时的时间
+    connectionTimeout: 30000
+    # 校验超时时间
+    validationTimeout: 5000
+    # 空闲连接存活最大时间，默认10分钟
+    idleTimeout: 600000
+    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+    maxLifetime: 1800000
+    # 多久检查一次连接的活性
+    keepaliveTime: 30000
+
+rules:
+  - !SHARDING
+    # 数据分片规则配置
+    tables:
+      # 逻辑表名称
+      gen_table:
+        # 由数据源名 + 表名组成（参考 Inline 语法规则）
+#        actualDataNodes:
+          # 分库策略，缺省表示使用默认分库策略，以下的分片策略只能选其一
+        databaseStrategy:
+          # 用于单分片键的标准分片场景
+          standard:
+            # 分片列名称
+            shardingColumn: id
+            # 分片算法名称
+            shardingAlgorithmName: myShardingAlgorithm
+        # 分表策略，同分库策略
+        tableStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: myShardingAlgorithm
+        # 分布式序列策略
+        keyGenerateStrategy:
+          # 自增列名称，缺省表示不使用自增主键生成器
+          column: id
+          # 分布式序列算法名称
+          keyGeneratorName: myKeyGenerator
+    # 默认数据库分片策略
+#    defaultDatabaseStrategy: none
+#    # 默认表分片策略
+#    defaultTableStrategy: none
+    # 默认的分布式序列策略
+    defaultKeyGenerateStrategy:
+      column: id
+      keyGeneratorName: myKeyGenerator
+    # 分片算法配置
+    shardingAlgorithms:
+      # 分片算法名称
+      myShardingAlgorithm:
+        # 分片算法类型
+        type: INLINE
+        # 分片算法属性配置
+        props:
+          algorithm-expression: gen_table_${id % 10}
+    # 分布式序列算法配置
+    keyGenerators:
+      # 分布式序列算法名称
+      myKeyGenerator:
+        # 分布式序列算法类型
+        type: SNOWFLAKE
+        # 分布式序列算法属性配置
+        props:
+          worker-id: 1
+

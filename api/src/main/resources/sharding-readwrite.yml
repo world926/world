@@ -1,0 +1,49 @@
+mode:
+  type: Standalone
+  repository:
+    type: JDBC
+dataSources:
+  master0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: pass
+    maxPoolSize: 20
+    minIdle: 10
+    connectionTimeout: 30000
+    idleTimeout: 600000
+    maxLifetime: 1800000
+  master1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey1?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: pass
+    # 最大连接池数量
+    maxPoolSize: 20
+    # 最小空闲线程数量
+    minIdle: 10
+    # 配置获取连接等待超时的时间
+    connectionTimeout: 30000
+    # 校验超时时间
+    validationTimeout: 5000
+    # 空闲连接存活最大时间，默认10分钟
+    idleTimeout: 600000
+    # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+    maxLifetime: 1800000
+    # 多久检查一次连接的活性
+    keepaliveTime: 30000
+rules:
+  # 读写分离
+  - !READWRITE_SPLITTING
+    dataSources:
+      readwrite_ds:
+        staticStrategy:
+          writeDataSourceName: master0
+          readDataSourceNames:
+            - master1
+        loadBalancerName: random
+    loadBalancers:
+      random:
+        type: RANDOM

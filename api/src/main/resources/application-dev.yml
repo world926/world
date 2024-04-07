@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding-readwrite.yml
+
+  data:
+    redis:
+      host: 1.14.147.171
+      port: 6379
+      database: 0
+      password: 667722yhqYHQ
+      timeout: 10s
+      ssl:
+        enabled: false
