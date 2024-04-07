@@ -38,6 +38,8 @@
         <mybatis-flex.version>1.8.2</mybatis-flex.version>
         <!--lombok版本管理-->
         <lombok.version>1.18.30</lombok.version>
+        <!--redisson版本-->
+        <redisson.version>3.27.2</redisson.version>
 
         <!--maven编译插件版本-->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
@@ -106,6 +108,12 @@
                 <artifactId>mybatis-flex-processor</artifactId>
                 <version>${mybatis-flex.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
         </dependencies>
