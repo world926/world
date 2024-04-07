@@ -7,6 +7,9 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * @author SWUST
+ */
 @Data
 public class GenTable implements Serializable {
 
