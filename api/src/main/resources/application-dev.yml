@@ -12,3 +12,11 @@ spring:
       timeout: 10s
       ssl:
         enabled: false
+
+# 日志配置
+logging:
+  level:
+    com.world: debug
+    org.springframework: warn
+    tech.powerjob.worker.background: warn
+  config: classpath:logback-plus.xml

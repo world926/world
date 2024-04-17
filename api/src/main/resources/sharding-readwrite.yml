@@ -3,10 +3,10 @@ mode:
   repository:
     type: JDBC
 dataSources:
-  master0:
+  master:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/order?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     username: root
     password: pass
     maxPoolSize: 20
@@ -14,10 +14,10 @@ dataSources:
     connectionTimeout: 30000
     idleTimeout: 600000
     maxLifetime: 1800000
-  master1:
+  slave:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://127.0.0.1:3306/gf_survey1?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/order?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
     username: root
     password: pass
     # 最大连接池数量
@@ -40,9 +40,9 @@ rules:
     dataSources:
       readwrite_ds:
         staticStrategy:
-          writeDataSourceName: master0
+          writeDataSourceName: master
           readDataSourceNames:
-            - master1
+            - slave
         loadBalancerName: random
     loadBalancers:
       random:
